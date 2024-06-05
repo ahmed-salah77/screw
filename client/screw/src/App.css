@@ -1,42 +1,89 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.avatars-container::-webkit-scrollbar {
+  background-color: rgb(196, 200, 205);
+  width: 13px;
+  border: 0px solid white;
+  border-radius: 10px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.avatars-container::-webkit-scrollbar-thumb {
+  background: #2861bb;
+  border-radius: 10px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.avatars-container {
+  display: none;
+}
+
+.lobby-chat::-webkit-scrollbar {
+  width: 7px;
+  margin-left: 10px;
+  position: absolute;
+  left: 0;
+}
+
+.lobby-chat::-webkit-scrollbar-track {
+  margin-left: 10px;
+
+  background: inherit;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.lobby-chat::-webkit-scrollbar-thumb {
+  margin-left: 10px;
+
+  background: white;
+  border-radius: 10px;
+}
+
+.lobby-chat {
+  scroll-padding-top: 110px;
+}
+
+.scores-table div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ring-container {
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  background-color: #62bd19;
+  border-radius: 50%;
+  position: absolute;
+
+}
+
+.ringring {
+  border: 3px solid #62bd19;
+  -webkit-border-radius: 30px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  -webkit-animation: pulsate 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  opacity: 0.0
+}
+
+@-webkit-keyframes pulsate {
+  0% {
+    -webkit-transform: scale(0.1, 0.1);
+    opacity: 0.0;
   }
-  to {
-    transform: rotate(360deg);
+
+  50% {
+    opacity: 1.0;
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  100% {
+    -webkit-transform: scale(1.2, 1.2);
+    opacity: 0.0;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

@@ -1,6 +1,7 @@
 import { v4 } from "uuid";
 import {
   Button,
+  Center,
   FormControl,
   FormLabel,
   Heading,
@@ -13,8 +14,6 @@ import useGameStore from "../store";
 const StartGame = () => {
   const player = useGameStore((s) => s.game.myPlayer);
   const setPlayer = useGameStore((s) => s.setPlayer);
-  const createNewRoom = useGameStore((s) => s.createRoom);
-  const joinToRoom = useGameStore((s) => s.joinRoom);
   const createRoom = () => {
     const roomName = (document.getElementById("room_name") as HTMLInputElement)
       .value;
@@ -23,25 +22,16 @@ const StartGame = () => {
     ).value;
     const roomId = v4();
     console.log(roomId);
-    setPlayer({
-      ...player,
-      isInRoom: true,
-      room: roomId,
-    });
-    createNewRoom({
-      id: roomId,
-      name: roomName,
-      host: player,
-      numberOfPlayers: 1,
-      players: [player],
-      password,
-      isRunningGame: false,
-    });
-    socket.emit("joinRoom", {
+    socket.emit("createRoom", {
       roomId,
       player: { ...player, isInRoom: true, room: roomId },
       password: password,
       roomName,
+    });
+    setPlayer({
+      ...player,
+      isInRoom: true,
+      roomId: roomId,
     });
     alert("room id: " + roomId);
   };
@@ -53,38 +43,35 @@ const StartGame = () => {
     ).value;
     socket.emit("joinRoom", {
       roomId: roomId,
-      player: player,
+      player: { ...player, isInRoom: true, roomId: roomId },
       password: roomPassword,
     });
-    socket.on("res", (res) => {
-      if (res.message == "joined successfully") {
-        joinToRoom(res.room);
-        console.log("joined successfully");
-      } else {
-        console.log("wrong password");
-      }
+    socket.on("Joined successfully", () => {
+      console.log("here");
+      setPlayer({ ...player, isInRoom: true, roomId: roomId });
     });
   };
   return (
-    <VStack padding={10}>
-      <Heading>CREATE ROOM</Heading>
-      <FormControl>
-        <Input type="text" id="room_name"></Input>
-        <FormLabel>Room Name</FormLabel>
-        <Input type="password" id="room_password"></Input>
-        <FormLabel>Room Password</FormLabel>
-        <Button onClick={createRoom}>Create Room</Button>
-      </FormControl>
-      <Heading>OR</Heading>
-      <Heading>JOIN ROOM</Heading>
-      <FormControl>
-        <Input type="text" id="room_id"></Input>
-        <FormLabel>Room id</FormLabel>
-        <Input type="password" id="room_password2"></Input>
-        <FormLabel>Room Password</FormLabel>
-        <Button onClick={joinRoom}>Join Room </Button>
-      </FormControl>
-    </VStack>
+    <Center w={"100vw"} h="100vh">
+      <VStack padding={10} gap={5}>
+        <Heading>إنشاء غرفة</Heading>
+        <FormControl>
+          <FormLabel>اسم الغرفة</FormLabel>
+          <Input type="text" id="room_name" mb={5}></Input>
+          <FormLabel>كلمة المرور للغرفة</FormLabel>
+          <Input type="password" id="room_password" mb={5}></Input>
+          <Button onClick={createRoom}>إنشاء</Button>
+        </FormControl>
+        <Heading>الانضمام إلى غرفة</Heading>
+        <FormControl>
+          <FormLabel>معرف الغرفة</FormLabel>
+          <Input type="text" id="room_id" mb={5}></Input>
+          <FormLabel>كلمة المرور للغرفة</FormLabel>
+          <Input type="password" id="room_password2" mb={5}></Input>
+          <Button onClick={joinRoom}>انضمام</Button>
+        </FormControl>
+      </VStack>
+    </Center>
   );
 };
 
