@@ -27,7 +27,7 @@ const Alerts = () => {
     return (
       <Alert type="normal">
         ستبدأ الجولة {roundArabicText(room.round)} بعد 
-        <Countdown seconds={10} /> ثواني
+        <Countdown seconds={10} /> ثواني 
       </Alert>
     );
   }
