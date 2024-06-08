@@ -24,7 +24,7 @@ const Player = ({ player, number }: Props) => {
     setTime(second);
   };
 
-  if (!player || !startTime) return null;
+  if (!player) return null;
 
   const [{ isOver }, drop] = useDrop(
     () => ({

@@ -100,7 +100,7 @@ const useGameStore = create<GameStore>((set) => ({
       tableCard: null,
       case: 0,
       seenCards: [],
-      turnStartedTime: Date.now(),
+      turnStartedTime:0,
     },
     grabbedCard: null,
   },
