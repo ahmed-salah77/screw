@@ -15,11 +15,20 @@ const Player = ({ player, number }: Props) => {
   const room = useGameStore((s) => s.game.room);
   const playerId = useGameStore((s) => s.game.myPlayer.id);
   const startTime = room.turnStartedTime;
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState(30.5);
+  useEffect(() => {
+    console.log(startTime);
+    
+    return () => {
+      
+    };
+  }, [room]);
   const calculateTimeRemaining = () => {
     const now = Date.now();
     const elapsedTime = now - startTime;
-    const timeRemaining = Math.max(0, 30 * 1000 - elapsedTime);
+    const timeRemaining = Math.max(0, 30.5 * 1000 - elapsedTime);
+    console.log(timeRemaining);
+    
     let second = (timeRemaining / 1000) % 60;
     setTime(second);
   };
@@ -82,7 +91,7 @@ const Player = ({ player, number }: Props) => {
     [room, player]
   );
   useEffect(() => {
-    const interval = setInterval(calculateTimeRemaining, 10);
+    const interval = setInterval(calculateTimeRemaining, 100);
     return () => {
       clearInterval(interval);
     };
@@ -105,7 +114,7 @@ const Player = ({ player, number }: Props) => {
           backgroundSize={"80%"}
           backgroundRepeat={"no-repeat"}
           backgroundPosition={"center"}
-          value={Math.round((time * 10) / 3)}
+          value={Math.round((time * 10) / 3.05)}
           position={"absolute"}
           size={"100%"}
           thickness="4%"
